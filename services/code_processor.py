@@ -46,10 +46,11 @@ def process_code(code, filename):
         }
 
     score_result = calculate_score(
-        security_result,
-        quality_result,
-        syntax_result
-    )
+    security_result,
+    quality_result,
+    syntax_result,
+    ai_result
+)
 
     return {
         "filename": filename,

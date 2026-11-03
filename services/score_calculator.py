@@ -1,4 +1,4 @@
-def calculate_score(security_result, quality_result, syntax_result=None):
+def calculate_score(security_result, quality_result, syntax_result=None, ai_result=None):
 
     score = 100
 
@@ -13,6 +13,13 @@ def calculate_score(security_result, quality_result, syntax_result=None):
     # Deduct points for syntax errors
     if syntax_result is not None and not syntax_result["valid"]:
         score -= 20
+
+    # Deduct points for AI-detected bugs
+    if ai_result is not None:
+        bugs = ai_result.get("bugs", [])
+        logical_errors = ai_result.get("logical_errors", [])
+
+        score -= (len(bugs) + len(logical_errors)) * 10
 
     # Prevent score from going below zero
     score = max(0, score)
