@@ -50,7 +50,7 @@ Code:
 """
 
     response = client.models.generate_content(
-        model="invalid-model-for-test",
+        model="gemini-flash-lite-latest",
         contents=prompt
     )
 
