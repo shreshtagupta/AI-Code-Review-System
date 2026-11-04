@@ -1,34 +1,50 @@
+
+import ast
 import difflib
 
-def syntax_analysis(code, language):
-    print("Starting Syntax Analysis...")
-    print("Language:", language)
-    print("Code submitted:")
-    print(code)
 
+def syntax_analysis(code, language, client=None, model=None):
 
+    if language.lower() != "python":
+        return {
+            "status": "Not Checked",
+            "errors": []
+        }
+
+    try:
+        ast.parse(code)
+
+        return {
+            "status": "Passed",
+            "errors": []
+        }
+
+    except SyntaxError as error:
+
+        return {
+            "status": "Failed",
+            "errors": [error.msg],
+            "line": error.lineno,
+            "column": error.offset
+        }
 
 
 def create_syntax_prompt(code, language):
 
     prompt = f"""
-    You are an expert programming code reviewer.
+You are an expert programming code reviewer.
 
-    Analyse the following {language} code.
+Analyse the following {language} code.
 
-    Your task:
-    1. Identify syntax errors.
-    2. Explain each error.
-    3. Suggest the correction.
-    4. If there are no syntax errors, say so.
+Identify actual syntax errors only.
+Do not invent errors.
+If the code is syntactically correct, report that no syntax errors exist.
 
-    Code:
-    {code}
-    """
+Code:
+{code}
+"""
 
     return prompt
-
-
 
 
 def get_ai_response(client, model, prompt):
@@ -39,15 +55,6 @@ def get_ai_response(client, model, prompt):
     )
 
     return response.text
-
-
-def syntax_analysis(code, language, client, model):
-
-    prompt = create_syntax_prompt(code, language)
-
-    result = get_ai_response(client, model, prompt)
-
-    return result
 
 
 def create_correction_prompt(code, language):
@@ -79,44 +86,43 @@ def correct_code(code, language, client, model):
 
     prompt = create_correction_prompt(code, language)
 
-    result = get_ai_response(client, model, prompt)
-
-    return result
+    return get_ai_response(client, model, prompt)
 
 
 def create_improvement_prompt(code, language):
 
     prompt = f"""
-    You are an expert programming developer.
+You are an expert programming developer.
 
-    Analyse the following {language} code.
+Analyse the following {language} code.
 
-    Suggest improvements related to:
+Suggest improvements related to:
 
-    1. Code readability.
-    2. Code efficiency.
-    3. Better programming practices.
-    4. Code structure.
-    5. Avoiding unnecessary operations.
+1. Code readability.
+2. Code efficiency.
+3. Better programming practices.
+4. Code structure.
+5. Avoiding unnecessary operations.
 
-    Important:
-    - Preserve the original functionality.
-    - Do not introduce unnecessary complexity.
-    - Explain each suggested improvement.
-    - Provide an improved version of the code.
+Important:
+- Preserve the original functionality.
+- Do not introduce unnecessary complexity.
+- Explain each suggested improvement.
+- Provide an improved version of the code.
 
-    Original Code:
-    {code}
-    """
+Original Code:
+{code}
+"""
 
     return prompt
+
+
 def improve_code(code, language, client, model):
 
     prompt = create_improvement_prompt(code, language)
 
-    result = get_ai_response(client, model, prompt)
+    return get_ai_response(client, model, prompt)
 
-    return result
 
 def compare_code(original_code, corrected_code):
 
@@ -134,41 +140,40 @@ def compare_code(original_code, corrected_code):
 def create_security_prompt(code, language):
 
     prompt = f"""
-    You are an expert cybersecurity code reviewer.
+You are an expert cybersecurity code reviewer.
 
-    Analyse the following {language} code
-    for potential security vulnerabilities.
+Analyse the following {language} code
+for potential security vulnerabilities.
 
-    Check for:
+Check for:
 
-    1. Unsafe input handling.
-    2. Buffer overflow risks where applicable.
-    3. SQL injection vulnerabilities where applicable.
-    4. Hardcoded passwords or API keys.
-    5. Insecure file handling.
-    6. Weak authentication practices.
-    7. Unsafe memory handling where applicable.
+1. Unsafe input handling.
+2. Buffer overflow risks where applicable.
+3. SQL injection vulnerabilities where applicable.
+4. Hardcoded passwords or API keys.
+5. Insecure file handling.
+6. Weak authentication practices.
+7. Unsafe memory handling where applicable.
 
-    For each vulnerability:
-    - Identify the issue.
-    - Mention the affected line if possible.
-    - Explain the security risk.
-    - Suggest a secure solution.
+For each vulnerability:
+- Identify the issue.
+- Mention the affected line if possible.
+- Explain the security risk.
+- Suggest a secure solution.
 
-    Do not report vulnerabilities without evidence.
-    If no vulnerabilities are identified, say so.
-    Mention any limitations in the analysis.
+Do not report vulnerabilities without evidence.
+If no vulnerabilities are identified, say so.
+Mention any limitations in the analysis.
 
-    Code:
-    {code}
-    """
+Code:
+{code}
+"""
 
     return prompt
+
 
 def security_analysis(code, language, client, model):
 
     prompt = create_security_prompt(code, language)
 
-    result = get_ai_response(client, model, prompt)
-
-    return result
+    return get_ai_response(client, model, prompt)
