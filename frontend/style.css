@@ -1,0 +1,162 @@
+
+/* General styling */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #0b1120;
+    color: #e2e8f0;
+    min-height: 100vh;
+}
+
+/* Navigation */
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 8%;
+    background: #111c30;
+    border-bottom: 1px solid #26354d;
+}
+
+nav h2 {
+    color: #38bdf8;
+    font-size: 23px;
+}
+
+.nav-links a {
+    color: #cbd5e1;
+    text-decoration: none;
+    margin-left: 30px;
+    font-size: 15px;
+    transition: 0.3s;
+}
+
+.nav-links a:hover {
+    color: #38bdf8;
+}
+
+/* Hero section */
+header {
+    text-align: center;
+    padding: 65px 20px 40px;
+}
+
+header h1 {
+    font-size: 42px;
+    font-weight: 700;
+    color: #38bdf8;
+    margin-bottom: 15px;
+}
+
+header p {
+    font-size: 17px;
+    color: #94a3b8;
+}
+
+/* Main code review card */
+.container {
+    width: 85%;
+    max-width: 950px;
+    margin: 0 auto 60px;
+    padding: 35px;
+    background: #142137;
+    border: 1px solid #263b57;
+    border-radius: 14px;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.25);
+}
+
+.container h2 {
+    font-size: 23px;
+    color: #f1f5f9;
+    margin-bottom: 25px;
+}
+
+/* Filename input */
+input {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 20px;
+    background: #0b1628;
+    border: 1px solid #334760;
+    border-radius: 8px;
+    color: white;
+    font-size: 15px;
+    outline: none;
+}
+
+input:focus,
+textarea:focus {
+    border-color: #38bdf8;
+    box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.12);
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: #718198;
+}
+
+/* Code editor */
+textarea {
+    width: 100%;
+    min-height: 280px;
+    padding: 18px;
+    background: #0b1628;
+    border: 1px solid #334760;
+    border-radius: 8px;
+    color: #e2e8f0;
+    font-size: 14px;
+    line-height: 1.7;
+    font-family: Consolas, monospace;
+    resize: vertical;
+    outline: none;
+}
+
+/* Analyze button */
+button {
+    display: block;
+    margin-top: 22px;
+    padding: 14px 28px;
+    background: #0284c7;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: #0369a1;
+    transform: translateY(-2px);
+}
+
+/* Responsive design */
+@media (max-width: 600px) {
+    nav {
+        padding: 18px 5%;
+    }
+
+    nav h2 {
+        font-size: 19px;
+    }
+
+    .nav-links a {
+        margin-left: 10px;
+        font-size: 13px;
+    }
+
+    header h1 {
+        font-size: 32px;
+    }
+
+    .container {
+        width: 92%;
+        padding: 22px;
+    }
+}
