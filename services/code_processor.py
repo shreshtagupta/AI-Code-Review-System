@@ -1,4 +1,3 @@
-
 from analyzers.language_detector import detect_language
 from analyzers.syntax_checker import check_python_syntax
 from analyzers.security_checker import check_security
@@ -19,16 +18,20 @@ def process_code(code, filename):
     # Code quality analysis
     quality_result = check_code_quality(code)
 
+    # Run local syntax analysis BEFORE AI analysis
+    syntax_result = None
+
+    if language.lower() == "python":
+        syntax_result = check_python_syntax(code)
+
     # AI analysis with error handling
     try:
-
         ai_result = analyze_code(code, filename)
 
         if not isinstance(ai_result, dict):
             raise ValueError("Invalid AI response format")
 
     except Exception as error:
-
         ai_result = {
             "status": "Failed",
             "detected_language": "Unavailable",
@@ -53,13 +56,11 @@ def process_code(code, filename):
         if detected_language and detected_language != "Unavailable":
             language = detected_language
 
-    # Local syntax analysis
-    syntax_result = None
+            # Run local syntax checker if AI identifies Python
+            if language.lower() == "python":
+                syntax_result = check_python_syntax(code)
 
-    if language.lower() == "python":
-        syntax_result = check_python_syntax(code)
-
-    # Use local syntax result as the source of truth
+    # Update AI syntax result using local checker
     if syntax_result is not None:
 
         ai_result["syntax_analysis"] = {
